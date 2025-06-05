@@ -1,0 +1,56 @@
+import java.util.Stack;
+public class MaxStack {
+    private Stack<Integer> mainStack;
+    private Stack<Integer> maxStack;
+    public MaxStack() {
+        mainStack = new Stack<>();
+        maxStack = new Stack<>();
+    }
+    public void push(int x) {
+        mainStack.push(x);
+        if (maxStack.isEmpty() || x >= maxStack.peek()) {
+            maxStack.push(x);
+        }
+    }
+    public int pop() {
+        if (mainStack.isEmpty()) {
+            throw new RuntimeException("Stack is empty");
+        }
+        int val = mainStack.pop();
+        if (val == maxStack.peek()) {
+            maxStack.pop();
+        }
+        return val;
+    }
+    public int top() {
+        if (mainStack.isEmpty()) {
+            throw new RuntimeException("Stack is empty");
+        }
+        return mainStack.peek();
+    }
+
+    public int getMax() {
+        if (maxStack.isEmpty()) {
+            throw new RuntimeException("Stack is empty");
+        }
+        return maxStack.peek();
+    }
+    public static void main(String[] args) {
+        MaxStack stack = new MaxStack();
+        stack.push(5);
+        stack.push(1);
+        stack.push(5);
+        System.out.println("Top: " + stack.top());
+        System.out.println("Max: " + stack.getMax());
+        stack.pop();
+        System.out.println("Max after pop: " + stack.getMax());
+        stack.pop();
+        System.out.println("Max after pop: " + stack.getMax());
+        stack.pop();
+        try {
+            System.out.println(stack.getMax());
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+}
